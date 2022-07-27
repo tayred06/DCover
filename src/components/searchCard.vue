@@ -39,7 +39,6 @@ export default {
       this.resultats = []      
       if (this.search != "") {
         this.resultats = await this.getInfoAPI("https://ws.audioscrobbler.com/2.0/?method=track.search&track="+this.search+"&api_key=3f842542803060ea569d93d31e3433b6&format=json");
-        console.log(this.resultats)
       } else {
         this.resultats = []
       }
@@ -91,6 +90,7 @@ export default {
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
       overflow: hidden;
+      cursor: pointer;
     }
     .resultat {
       background-color: #35363a;
