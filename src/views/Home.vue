@@ -4,6 +4,9 @@
     <switchVue v-if="res"/>
     <div class="reponse">
       <responseCard @recherche="setRecherche" :chanson="song" :pos="index" v-for="(song, index) in res" :key="song.name"/>
+      <div class="error" v-if="erreur">
+        <p>Désolé nous n'avont pas de resultat pour cette recherche</p>
+      </div>
     </div>
   </div>
 </template>
@@ -22,7 +25,7 @@ export default {
     switchVue
   },
   data() {
-    return {res: '', titre: '', artiste: '', resData: '', search: ''}
+    return {res: '', titre: '', artiste: '', resData: '', search: '', erreur: false}
   },
   methods: {
     // Définit la méthode utilisée par le payload pour mettre à jour la propriété data
@@ -31,7 +34,13 @@ export default {
       this.titre = son.titre
       this.artiste = son.artiste
       resultat = await this.getAPI('https://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist='+this.artiste+'&track='+this.titre+'&api_key=3f842542803060ea569d93d31e3433b6&format=json&limit')
-      this.res = this.ramdomizeList(resultat);
+      if (resultat.length>0) {
+        this.erreur = false;
+        this.res = this.ramdomizeList(resultat);
+      } else {
+        this.res = false;
+        this.erreur = true;
+      }
     },
     async setRecherche(recherche) {
       this.setSon(recherche);
@@ -39,7 +48,6 @@ export default {
     },
     async getAPI(url) {
       const response = await axios.get(url);
-
       return response.data.similartracks.track
     },
     ramdomizeList(list) {
