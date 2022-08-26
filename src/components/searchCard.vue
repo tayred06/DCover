@@ -38,7 +38,7 @@ export default {
     async updateSearch() {
       this.resultats = []      
       if (this.search != "") {
-        this.resultats = await this.getInfoAPI("https://ws.audioscrobbler.com/2.0/?method=track.search&track="+this.search+"&api_key=3f842542803060ea569d93d31e3433b6&format=json");
+        this.resultats = await this.getInfoAPI("https://ws.audioscrobbler.com/2.0/?method=track.search&track="+this.search+"&api_key=7824bbbc91348cbea756c6d9e8032fff&format=json");
       } else {
         this.resultats = []
       }

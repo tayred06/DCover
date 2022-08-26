@@ -22,7 +22,7 @@ export default {
             return this.url+this.chanson.name + " " + this.chanson.artist.name
         },
         search(song) {
-            console.log(song)
+            // console.log(song)
             this.$emit('recherche', {'titre': song.name, 'artiste': song.artist.name});
         }
     }

@@ -32,8 +32,8 @@ export default {
     async setSon(son) {
       let resultat = [];
       this.titre = son.titre
-      this.artiste = son.artiste
-      resultat = await this.getAPI('https://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist='+this.artiste+'&track='+this.titre+'&api_key=3f842542803060ea569d93d31e3433b6&format=json&limit')
+      this.artiste = son.artiste //https://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=cher&track=believe&api_key=7824bbbc91348cbea756c6d9e8032fff&format=json
+      resultat = await this.getAPI('https://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist='+this.artiste+'&track='+this.titre+'&api_key=7824bbbc91348cbea756c6d9e8032fff&format=json')
       if (resultat.length>0) {
         this.erreur = false;
         this.res = this.ramdomizeList(resultat);
@@ -48,6 +48,7 @@ export default {
     },
     async getAPI(url) {
       const response = await axios.get(url);
+      console.log(url, response);
       return response.data.similartracks.track
     },
     ramdomizeList(list) {
