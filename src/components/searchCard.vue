@@ -5,11 +5,11 @@
       <input type="text" name="search" id="search" placeholder="Rechecher" v-debounce:300ms="updateSearch" v-model="search">
       <button v-on:click="res()">Res</button>
       <div class="resultats">
-        <div v-for="resultat in resultats" :key="resultat.id" v-on:click="returnId(resultat.name, resultat.artist)" class="resultat">
-          <img v-bind:src="Object.values(resultat.image[0])[0]" alt="img">
+        <div v-for="resultat in resultats" :key="resultat.id" v-on:click="returnId(resultat)" class="resultat">
+          <img v-bind:src="resultat.album.images[0].url" alt="img">
           <div class="chanson">
             <p class="titre">{{resultat.name}}</p>
-            <p class="artiste">{{resultat.artist}}</p>
+            <p class="artiste">{{resultat.artists[0].name}}</p>
           </div>
         </div>
       </div>
@@ -20,7 +20,7 @@
 
 <script>
 import { vue3Debounce } from 'vue-debounce'
-import axios from 'axios'
+import DcoverAPI from '../../src/api/dcoverAPI'
 
 export default {
   name: 'searchCard',
@@ -36,22 +36,19 @@ export default {
       this.search = null;
     },
     async updateSearch() {
+      const dcoverAPI = new DcoverAPI;
       this.resultats = []      
       if (this.search != "") {
-        this.resultats = await this.getInfoAPI("https://ws.audioscrobbler.com/2.0/?method=track.search&track="+this.search+"&api_key=7824bbbc91348cbea756c6d9e8032fff&format=json");
+        this.resultats = await dcoverAPI.search(this.search)
       } else {
         this.resultats = []
       }
     },
-    returnId(titre, artiste) {
-      this.$emit('son', {'titre': titre, 'artiste': artiste});
+    returnId(resultat) {
+      this.$emit('son', {'titre': resultat.id, 'artiste': resultat.artists[0].id});
       this.resultats = []
-      this.search = titre + ' - ' + artiste
+      this.search = resultat.name + ' - ' + resultat.artists[0].name
     },
-    async getInfoAPI(url) {
-      const response = await axios.get(url);
-      return response.data.results.trackmatches.track.slice(0, 5)
-    }
   }
 }
 </script>

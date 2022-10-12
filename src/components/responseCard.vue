@@ -1,11 +1,14 @@
 <template>
-    <div v-on:click="search(chanson)" class="responseCard">
-        <img :src="Object.values(chanson.image[0])[0]" alt="img">
+    <!-- <div v-on:click="search(chanson)" class="responseCard"> -->
+    <div class="responseCard">
+        <img :src="chanson.album.images[0].url" alt="img">
         <div class="data">
             <p class="index">#{{pos+1}}</p>
-            <p class="titre">{{String(chanson.name)}}</p>
-            <p class="artiste">{{String(chanson.artist.name)}}</p>
-            <a :href="getYTUrl()" target="_blank" >Ecouter <img src="../../public/img/youtube-brands.svg" alt="play"></a>
+            <p class="titre">{{chanson.name}}</p>
+            <p class="artiste">{{chanson.artists[0].name}}</p>
+            <audio v-if="chanson.preview_url"  controls>
+                <source :src="chanson.preview_url" type="audio/mpeg">
+            </audio>
         </div>
     </div>
 </template>
@@ -15,16 +18,7 @@ export default {
     name: 'responseCard',
     props: ['chanson', 'pos'],
     data() {
-        return {suggestion: [], url: "https://www.youtube.com/results?search_query="}
-    },
-    methods: {
-        getYTUrl() {
-            return this.url+this.chanson.name + " " + this.chanson.artist.name
-        },
-        search(song) {
-            // console.log(song)
-            this.$emit('recherche', {'titre': song.name, 'artiste': song.artist.name});
-        }
+        return {suggestion: []}
     }
 }
 </script>
@@ -58,6 +52,7 @@ export default {
     }
     .data {
         margin-left: 25px;
+        text-align: left;
     }
     p {
         margin: 0;
