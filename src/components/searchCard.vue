@@ -88,6 +88,7 @@ export default {
       border-bottom-right-radius: 10px;
       overflow: hidden;
       cursor: pointer;
+      z-index: 9999;
     }
     .resultat {
       background-color: #35363a;

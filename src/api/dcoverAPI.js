@@ -29,6 +29,7 @@ class dcoverAPI {
         console.log('tata')
         this.setCookie('token', window.location.hash.split('&')[0].split('=')[1], 365)
         // window.location.href = location.host;
+        window.history.pushState("", "", '/');
     }
 
     async search(search) {

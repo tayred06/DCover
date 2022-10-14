@@ -2,7 +2,6 @@
   <div class="home">
     <a href="https://www.spotify.com/logout/">Log out</a>
     <searchCard @son="setSon" :newsearch="search" />
-    <switchVue v-if="res"/>
     <div class="reponse">
       <responseCard @recherche="setRecherche" :chanson="song" :pos="index" v-for="(song, index) in res" :key="song.name"/>
       <div class="error" v-if="erreur">
@@ -15,7 +14,6 @@
 <script>
 import searchCard from '@/components/searchCard.vue'
 import responseCard from '@/components/responseCard.vue'
-import switchVue from '../components/switch.vue'
 import axios from 'axios'
 import DcoverAPI from '../../src/api/dcoverAPI'
 
@@ -24,7 +22,6 @@ export default {
   components: {
     searchCard,
     responseCard,
-    switchVue
   },
   data() {
     return {res: '', resData: '', search: '', erreur: false}
@@ -76,7 +73,7 @@ export default {
       width: 98%;
     }
     .reponse {
-      justify-content: center;
+      justify-content: space-around;
     }
   }
 </style>

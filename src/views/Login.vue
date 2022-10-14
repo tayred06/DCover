@@ -23,7 +23,7 @@ export default {
       const client_id = '55971b5193b147a8a438659c18ae9fff'; // Your client id
       const redirect_uri = 'http://localhost:8080/'; // Your redirect uri
 
-      const SECRET_ID = "5d3a930ff4cf460fb2892a2b24e5b066"
+      const SECRET_ID = "1908790d66574833a3041d7f50f75110"
 
       const client = Client.instance;
       client.settings = {
