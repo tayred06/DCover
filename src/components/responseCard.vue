@@ -10,7 +10,7 @@
         </div>
         <div class="data">
             <p class="index">#{{pos+1}}</p>
-            <p class="titre">{{chanson.name}}</p>
+            <a :href=chanson.uri class="titre">{{chanson.name}}</a>
             <p class="artiste">{{chanson.artists[0].name}}</p>
             <audio v-if="chanson.preview_url" :id="'player_'+pos" class="player" controls>
                 <source :src="chanson.preview_url" type="audio/mpeg">
@@ -132,16 +132,8 @@ export default {
         margin: 0;
     }
     a {
-        color: #35363a;
+        color: #ffdc2b;
         text-decoration: none;
-        background-color: #ffdc2b;
-        padding: 5px 20px;
-        border-radius: 10px;
-        margin-top: 10px;
-        transition: 0.3s;
-        display: flex;
-        align-items: center;
-        width: 100px;
     }
     a:hover {
         border-radius: 20px;

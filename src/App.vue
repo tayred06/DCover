@@ -1,35 +1,32 @@
 <template>
-  <H1>DCover</H1>
-  <div id="nav">
+  <H1>Doover</H1>
+  <!-- <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/login">Login</router-link>
-  </div>
+  </div> -->
   <router-view/>
+  <div v-if="!token" class="modalLogin">
+    <h2>Se connecter a Spotify</h2>
+    <button v-on:click="login">Login to Spotify</button>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
 import DcoverAPI from '../src/api/dcoverAPI'
 
 export default {
+  data() {
+    return {token: ''}
+  },
   mounted() {
-    const dcoverAPItata = new DcoverAPI;
-    if(!dcoverAPItata.getCookie('token') || dcoverAPItata.getCookie('token') == undefined){
-      console.log('ZEBI')
-      dcoverAPItata.login();
-    }
+    const dcoverAPI = new DcoverAPI;
+    this.token = dcoverAPI.getCookie('token');
+
   },
   methods: {
-    storeToken() {
-      document.cookie = 'token=' + window.location.hash.split('&')[0].split('=')[1] + '; expires=Thu, 18 Dec 2013 12:00:00 UTC'
-    },
-    async testGetInfo(url, token) {
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: 'Bearer ' + token //the token is a variable which holds the token
-        }
-      })
-      console.log(response)
+    login() {
+      const dcoverAPI = new DcoverAPI;
+      dcoverAPI.login();
     }
   }
 }
@@ -65,5 +62,17 @@ body {
 }
 h1 {
   color: #ffdc2b;
+}
+.modalLogin {
+  position: absolute;
+    top: 25%;
+    background-color: rebeccapurple;
+    width: 50%;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
 }
 </style>

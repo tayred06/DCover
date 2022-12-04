@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <a href="https://www.spotify.com/logout/">Log out</a>
+    <p v-on:click="logout">Log out</p>
     <searchCard @son="setSon" :newsearch="search" />
     <div class="reponse">
       <responseCard @recherche="setRecherche" :chanson="song" :pos="index" v-for="(song, index) in res" :key="song.name"/>
@@ -40,8 +40,12 @@ export default {
     },
     async getAPI(url) {
       const response = await axios.get(url);
-      console.log(url, response);
+      // console.log(url, response);
       return response.data.similartracks.track
+    },
+    logout() {
+      const dcoverAPI = new DcoverAPI;
+      dcoverAPI.logout();
     }
   }
 }

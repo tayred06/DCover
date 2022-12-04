@@ -21,9 +21,9 @@ export default {
     login() {
 
       const client_id = '55971b5193b147a8a438659c18ae9fff'; // Your client id
-      const redirect_uri = 'http://localhost:8080/'; // Your redirect uri
+      const redirect_uri = 'http://localhost:8080/callback'; // Your redirect uri
 
-      const SECRET_ID = "1908790d66574833a3041d7f50f75110"
+      const SECRET_ID = "ac66547861454522a463116eb83f7ef8"
 
       const client = Client.instance;
       client.settings = {
@@ -33,7 +33,7 @@ export default {
         redirect_uri: redirect_uri
       };
       client.login().then((url) => {
-        console.log(url)
+        // console.log(url)
         window.location.href = url;
       });
     }

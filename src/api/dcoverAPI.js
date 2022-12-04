@@ -1,12 +1,20 @@
 import axios from 'axios'
+import {Client} from 'spotify-sdk';
 
 class dcoverAPI {
 
-    setCookie(cname, cvalue, exdays) {
+    setCookie(cname, cvalue) {
         const d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        d.setTime(d.getTime() + (1 * 3600 * 1000));
         let expires = "expires="+ d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    supprCookie(cname) {
+        const d = new Date();
+        d.setTime(d.getTime() - (1 * 3600 * 1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "='';" + expires + ";path=/";
     }
 
     getCookie(cname) {
@@ -26,14 +34,33 @@ class dcoverAPI {
     }
 
     login() {
-        console.log('tata')
-        this.setCookie('token', window.location.hash.split('&')[0].split('=')[1], 365)
-        // window.location.href = location.host;
-        window.history.pushState("", "", '/');
+        let token = window.location.hash.split('&')[0].split('=')[1]
+        if(!this.getCookie('token') && token == null) {
+            const client_id = '55971b5193b147a8a438659c18ae9fff'; // Your client id
+            const redirect_uri = location.origin+'/callback'; // Your redirect uri
+
+            const SECRET_ID = "ac66547861454522a463116eb83f7ef8"
+
+            const client = Client.instance;
+            client.settings = {
+                clientId: client_id,
+                secretId: SECRET_ID,
+                scopes: ['user-follow-modify user-follow-read user-library-read user-top-read'],
+                redirect_uri: redirect_uri
+            };
+            client.login().then((url) => {
+                window.location.href = url;
+            });
+        }
+    }
+
+    logout() {
+        this.supprCookie('token');
+        location.href = 'https://www.spotify.com/logout/';
     }
 
     async search(search) {
-        const token = this.getCookie('token')
+        const token = this.getCookie('token');
         let temp;
         await axios.get('https://api.spotify.com/v1/search?q=' + search + '&type=track', {
             headers: {
